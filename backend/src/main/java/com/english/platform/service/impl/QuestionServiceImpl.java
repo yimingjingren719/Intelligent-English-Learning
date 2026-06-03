@@ -9,7 +9,6 @@ import com.english.platform.mapper.QuestionMapper;
 import com.english.platform.service.QuestionService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

@@ -3,8 +3,6 @@ package com.english.platform.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.english.platform.entity.Vocabulary;
 
-import java.util.Map;
-
 public interface VocabularyService {
     /** 分页查询生词本 */
     Page<Vocabulary> pageQuery(Long userId, Long page, Long size);

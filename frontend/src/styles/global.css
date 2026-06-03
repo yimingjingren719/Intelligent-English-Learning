@@ -49,23 +49,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* ========== 通用按钮 ========== */
-.btn-primary-gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  color: white;
-  padding: 10px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-.btn-primary-gradient:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
 /* ========== 统计数字 ========== */
 .stat-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

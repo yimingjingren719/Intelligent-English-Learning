@@ -252,7 +252,6 @@ async function markMastered(errorId) {
 </script>
 
 <style scoped>
-.error-practice { min-height: 100vh; background: #f0f2f5; }
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .wrong-answer { color: #f56c6c; }
 .test-progress { margin-bottom: 20px; }

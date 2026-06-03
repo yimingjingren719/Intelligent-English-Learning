@@ -22,15 +22,6 @@ public class User {
     /** 邮箱 */
     private String email;
 
-    /** 性别 */
-    private String gender;
-
-    /** 年龄 */
-    private Integer age;
-
-    /** 个性签名 */
-    private String signature;
-
     /** 角色：STUDENT / ADMIN */
     private String role;
 

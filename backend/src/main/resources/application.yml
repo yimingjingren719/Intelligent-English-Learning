@@ -15,7 +15,6 @@ server:
   port: 8080
 
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: com.english.platform.entity
   configuration:
     map-underscore-to-camel-case: true
@@ -32,28 +31,14 @@ jwt:
   secret: EnglishPlatformSecretKey2024ForJWTTokenGenerationMustBeLongEnough
   expiration: 86400000  # 24小时
 
-# AI 配置 (第三方API)
 ai:
   provider: openai      # 使用DeepSeek (兼容OpenAI格式)
   openai:
     api-key: sk-7f0584eee9e247049e6609adb4dbc4f9
     model: deepseek-chat
     base-url: https://api.deepseek.com
-  gemini:
-    api-key: your-gemini-api-key
-    model: gemini-pro
-    base-url: https://generativelanguage.googleapis.com/v1beta
 
 # 文件上传配置
 spring.servlet.multipart:
   max-file-size: 50MB
   max-request-size: 50MB
-
-# Knife4j 文档
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-  api-docs:
-    path: /v3/api-docs
-knife4j:
-  enable: true

@@ -77,7 +77,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { ElMessage } from 'element-plus'
-import { User, UserFilled, Message, Lock, EditPen, TrendCharts, ChatDotRound, Document } from '@element-plus/icons-vue'
+import { User, UserFilled, Message, Lock } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const userStore = useUserStore()

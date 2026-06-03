@@ -20,17 +20,3 @@ export function markMasteredAPI(id) {
   return request.put(`/vocabulary/${id}/master`)
 }
 
-// 获取待复习单词
-export function getReviewWords(params) {
-  return request.get('/vocabulary/review', { params })
-}
-
-// 获取系统词库（六级词汇）
-export function getSystemWords(params) {
-  return request.get('/vocabulary/system', { params })
-}
-
-// 从系统词库学习单词
-export function learnSystemWord(id) {
-  return request.post(`/vocabulary/learn/${id}`)
-}

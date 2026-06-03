@@ -1,9 +1,7 @@
 package com.english.platform.service;
 
 import com.english.platform.dto.TestSubmitDTO;
-import com.english.platform.entity.Question;
 
-import java.util.List;
 import java.util.Map;
 
 public interface TestService {

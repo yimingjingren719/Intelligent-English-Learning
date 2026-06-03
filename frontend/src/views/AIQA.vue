@@ -200,8 +200,6 @@ async function viewStudyPlan() {
 </script>
 
 <style scoped>
-.ai-qa { min-height: 100vh; background: #f0f2f5; }
-
 .chat-container {
   display: flex;
   flex-direction: column;

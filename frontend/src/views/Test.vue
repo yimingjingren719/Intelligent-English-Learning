@@ -157,7 +157,6 @@ import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
 import { generateTestAPI, submitTestAPI } from '@/api/test'
-import { addVocabularyAPI } from '@/api/vocabulary'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const router = useRouter()
@@ -389,7 +388,6 @@ onUnmounted(() => clearInterval(timerInterval))
 </script>
 
 <style scoped>
-.test-page { min-height: 100vh; background: #f0f2f5; }
 .test-layout { display: flex; gap: 16px; align-items: flex-start; }
 
 .question-sidebar { width: 160px; min-width: 160px; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); position: sticky; top: 80px; max-height: calc(100vh - 100px); display: flex; flex-direction: column; }

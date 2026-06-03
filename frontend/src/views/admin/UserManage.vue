@@ -66,5 +66,4 @@ async function fetchUsers() {
 </script>
 
 <style scoped>
-.user-manage { min-height: 100vh; background: #f0f2f5; }
 </style>

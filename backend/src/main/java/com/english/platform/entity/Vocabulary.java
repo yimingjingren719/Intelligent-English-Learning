@@ -19,9 +19,6 @@ public class Vocabulary {
     /** 中文释义 */
     private String translation;
 
-    /** 来源题目ID（从哪道题标记的） */
-    private Long sourceQuestionId;
-
     /** 复习次数 */
     private Integer reviewCount;
 

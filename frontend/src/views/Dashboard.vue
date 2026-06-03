@@ -83,7 +83,7 @@ import { useUserStore } from '@/store/user'
 import NavBar from '@/components/NavBar.vue'
 import request from '@/api/request'
 import * as echarts from 'echarts'
-import { EditPen, ChatDotRound, Document, TrendCharts } from '@element-plus/icons-vue'
+import { marked } from 'marked'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -261,12 +261,9 @@ ${weakText}根据最近${recentFilter.value === '0' ? '全部' : recentFilter.va
 5. **限时训练**：模拟真实考试时间限制，提高答题速度
   `)
 }
-
-import { marked } from 'marked'
 </script>
 
 <style scoped>
-.dashboard { min-height: 100vh; background: #f0f2f5; }
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px; }
 .radar-legend { display: flex; gap: 12px; justify-content: center; margin-top: 8px; }
 .level-tag { padding: 2px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; }

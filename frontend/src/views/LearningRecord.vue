@@ -113,7 +113,6 @@ onMounted(() => fetchCalendar())
 </script>
 
 <style scoped>
-.learning-record { min-height: 100vh; background: #f0f2f5; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
 .month-nav { display: flex; align-items: center; gap: 16px; justify-content: center; }
 .month-nav h3 { font-size: 20px; color: #1a1a2e; min-width: 140px; text-align: center; }

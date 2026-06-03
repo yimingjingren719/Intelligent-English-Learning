@@ -41,8 +41,6 @@ CREATE TABLE IF NOT EXISTS questions (
     analysis TEXT COMMENT '答案解析',
     difficulty INT NOT NULL DEFAULT 5 COMMENT '难度等级: 1-10',
     tags VARCHAR(500) COMMENT '知识点标签, 逗号分隔',
-    image_url VARCHAR(500) COMMENT '关联图片URL',
-    audio_url VARCHAR(500) COMMENT '关联音频URL',
     status TINYINT NOT NULL DEFAULT 0 COMMENT '状态: 0-启用 1-禁用',
     creator_id BIGINT COMMENT '创建者ID',
     deleted TINYINT NOT NULL DEFAULT 0 COMMENT '逻辑删除',

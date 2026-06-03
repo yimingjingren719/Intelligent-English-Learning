@@ -40,8 +40,6 @@ const adminMenus = [
 </script>
 
 <style scoped>
-.admin-dashboard { min-height: 100vh; background: #f0f2f5; }
-
 .admin-card {
   display: flex;
   align-items: center;

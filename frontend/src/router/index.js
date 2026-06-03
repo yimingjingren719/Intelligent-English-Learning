@@ -30,12 +30,6 @@ const routes = [
     meta: { title: '在线测试' }
   },
   {
-    path: '/test/result/:sessionId',
-    name: 'TestResult',
-    component: () => import('@/views/TestResult.vue'),
-    meta: { title: '测试结果' }
-  },
-  {
     path: '/error-practice',
     name: 'ErrorPractice',
     component: () => import('@/views/ErrorPractice.vue'),

@@ -5,11 +5,6 @@ export function getQuestionsPage(params) {
   return request.get('/question/page', { params })
 }
 
-// 获取题目详情
-export function getQuestionDetail(id) {
-  return request.get(`/question/${id}`)
-}
-
 // 新增题目
 export function addQuestion(data) {
   return request.post('/question', data)
@@ -25,7 +20,3 @@ export function deleteQuestion(id) {
   return request.delete(`/question/${id}`)
 }
 
-// 随机获取题目
-export function getRandomQuestions(params) {
-  return request.get('/question/random', { params })
-}

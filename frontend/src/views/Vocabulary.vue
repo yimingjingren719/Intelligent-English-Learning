@@ -112,7 +112,6 @@ import NavBar from '@/components/NavBar.vue'
 import { getVocabularyPage, addVocabularyAPI, deleteVocabularyAPI, markMasteredAPI } from '@/api/vocabulary'
 import request from '@/api/request'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
 
 const activeTab = ref('mine')
 
@@ -222,7 +221,6 @@ onMounted(() => fetchMyWords())
 </script>
 
 <style scoped>
-.vocabulary-page { min-height: 100vh; background: #f0f2f5; }
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
 

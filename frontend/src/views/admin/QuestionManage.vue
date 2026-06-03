@@ -264,6 +264,5 @@ async function handleDelete(id) {
 </script>
 
 <style scoped>
-.question-manage { min-height: 100vh; background: #f0f2f5; }
 .filter-form { margin-bottom: 16px; }
 </style>
