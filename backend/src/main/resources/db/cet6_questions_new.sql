@@ -4,15 +4,12 @@
 -- ============================================
 USE english_platform;
 
--- 清空旧题目
-DELETE FROM questions;
-
 -- ============================================================
 -- 一、选词填空 BANKED_CLOZE (每篇10空，每题3分，15选10)
 -- content=带空文章, options=15个词, correct_answer=10个答案序列
 -- ============================================================
 
-INSERT INTO questions (question_type, content, options, correct_answer, analysis, difficulty, tags) VALUES
+INSERT IGNORE INTO questions (question_type, content, options, correct_answer, analysis, difficulty, tags) VALUES
 
 -- 选词填空 1: 人工智能与就业
 ('BANKED_CLOZE',
@@ -83,7 +80,7 @@ INSERT INTO questions (question_type, content, options, correct_answer, analysis
 -- content=标段落文章, options=10个statement, correct_answer=10个段落字母
 -- ============================================================
 
-INSERT INTO questions (question_type, content, options, correct_answer, analysis, difficulty, tags) VALUES
+INSERT IGNORE INTO questions (question_type, content, options, correct_answer, analysis, difficulty, tags) VALUES
 
 -- 长篇匹配 1: 幸福与金钱
 ('LONG_MATCH',
@@ -139,7 +136,7 @@ INSERT INTO questions (question_type, content, options, correct_answer, analysis
 -- ============================================================
 
 -- 仔细阅读 Passage 1: 生物多样性
-INSERT INTO questions (question_type, content, options, correct_answer, analysis, difficulty, tags) VALUES
+INSERT IGNORE INTO questions (question_type, content, options, correct_answer, analysis, difficulty, tags) VALUES
 ('CAREFUL_READING', '<h4>Biodiversity in the Anthropocene</h4><p>Scientists have identified the current geological epoch as the Anthropocene, a period defined by humanity dominant influence on Earth ecosystems. Among the most alarming features of this era is the rapid acceleration of species extinction. Current extinction rates are estimated to be 100 to 1,000 times higher than the natural background rate, leading many biologists to conclude that we are witnessing the sixth mass extinction event in Earth history.</p><p>The drivers of biodiversity loss are multiple and interconnected. Habitat destruction, primarily through agricultural expansion and urban development, remains the single greatest threat to terrestrial species. Climate change is rapidly emerging as an equally significant factor, altering the environmental conditions to which species have adapted over millennia. Ocean acidification, caused by the absorption of excess atmospheric carbon dioxide, threatens marine ecosystems, particularly coral reefs that support approximately 25% of all marine life.</p><p>The consequences of biodiversity loss extend far beyond the disappearance of individual species. Ecosystems provide essential services—pollination of crops, purification of water, regulation of climate, and protection against natural disasters—that have enormous economic value. The World Economic Forum has estimated that over half of global GDP, approximately $44 trillion, is moderately or highly dependent on nature and its services.</p><p>Conservation efforts have achieved notable successes. The population of mountain gorillas in Central Africa has increased from approximately 250 individuals in the 1980s to over 1,000 today, thanks to intensive protection efforts. The recovery of the California condor, once reduced to just 27 individuals, demonstrates that concerted action can bring species back from the brink of extinction. However, these successes remain isolated exceptions rather than the rule.</p><p>Addressing the biodiversity crisis requires systemic changes that go beyond traditional conservation. Transforming food systems to reduce their environmental footprint, redesigning cities to accommodate wildlife, and fundamentally restructuring economic systems to account for natural capital are all essential. The challenge is not merely technical but deeply political and economic, requiring societies to reconsider their relationship with the natural world upon which their prosperity ultimately depends.</p>',
  NULL, 'PASSAGE', '仔细阅读文章：人类世生物多样性危机', 8, '仔细阅读,生物多样性,环境'),
 

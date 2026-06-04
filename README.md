@@ -127,6 +127,9 @@ cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/cet6_words.sql"
 
 # ④ 导入六级题库（选词填空 + 长篇匹配 + 仔细阅读）
 cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/cet6_questions_new.sql"
+
+# ⑤ (可选) 导入扩充题库，题目更多
+cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/expand_questions.sql"
 ```
 
 | 文件 | 作用 |
@@ -135,6 +138,7 @@ cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/cet6_questions_new.s
 | `vocabulary_schema.sql` | 建生词本表（vocabulary） |
 | `cet6_words.sql` | 导入 ~800 个六级核心词汇到 vocabulary 表 |
 | `cet6_questions_new.sql` | 导入六级真题（选词填空×6 + 长篇匹配×6 + 仔细阅读×6） |
+| `expand_questions.sql` | 扩充题库（选词填空+2, 长篇匹配+4, 仔细阅读+16） |
 
 > ⚠️ 顺序不能乱：`vocabulary_schema.sql` 必须在 `cet6_words.sql` 之前，否则生词表不存在会报错。
 
