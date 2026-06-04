@@ -75,7 +75,7 @@ public class TestServiceImpl implements TestService {
             Long realQuestionId = item.getQuestionId();
             int subIndex = 0;
             Question question = questionMapper.selectById(realQuestionId);
-            if (question == null && realQuestionId > 100) {
+            if (question == null && realQuestionId >= 100) {
                 realQuestionId = realQuestionId / 100;
                 subIndex = (int)(item.getQuestionId() % 100);
                 question = questionMapper.selectById(realQuestionId);

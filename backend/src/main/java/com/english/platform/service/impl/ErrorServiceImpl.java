@@ -40,8 +40,8 @@ public class ErrorServiceImpl implements ErrorService {
             throw new BusinessException("错题记录不存在");
         }
         Long qid = errorRecord.getQuestionId();
-        // 处理合成ID（选词填空/长篇匹配的子题ID）
-        Long realQid = qid > 100 ? qid / 100 : qid;
+        // 处理合成ID（选词填空/长篇匹配的子题ID，格式：realId*100+idx）
+        Long realQid = qid >= 100 ? qid / 100 : qid;
         Question question = questionMapper.selectById(realQid);
 
         Map<String, Object> result = new HashMap<>();
@@ -101,11 +101,85 @@ public class ErrorServiceImpl implements ErrorService {
         wrapper.last("LIMIT " + count);
         List<ErrorRecord> errorRecords = errorRecordMapper.selectList(wrapper);
 
-        List<Question> questions = new ArrayList<>();
+        // Resolve synthetic IDs (BANKED_CLOZE/LONG_MATCH use id*100+idx),
+        // deduplicate by real question ID, and build structured practice items
+        Set<Long> seenRealIds = new LinkedHashSet<>();
+        List<Map<String, Object>> practiceItems = new ArrayList<>();
+
         for (ErrorRecord er : errorRecords) {
-            Question question = questionMapper.selectById(er.getQuestionId());
-            if (question != null) {
-                questions.add(question);
+            Long rawQid = er.getQuestionId();
+            // Resolve synthetic ID: realQid * 100 + subIndex -> realQid
+            Long realQid = rawQid >= 100 ? rawQid / 100 : rawQid;
+
+            Question question = questionMapper.selectById(realQid);
+            if (question == null) continue;
+
+            String qType = question.getQuestionType();
+
+            // For BANKED_CLOZE and LONG_MATCH: one big question per real ID
+            if ("BANKED_CLOZE".equals(qType) || "LONG_MATCH".equals(qType)) {
+                if (seenRealIds.contains(realQid)) continue;
+                seenRealIds.add(realQid);
+
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", qType);
+                item.put("question", question);
+                practiceItems.add(item);
+                continue;
+            }
+
+            // For CAREFUL_READING: group by passage
+            if ("CAREFUL_READING".equals(qType) && !"PASSAGE".equals(question.getCorrectAnswer())) {
+                // Find the passage that precedes this question
+                LambdaQueryWrapper<Question> passageWrapper = new LambdaQueryWrapper<>();
+                passageWrapper.eq(Question::getQuestionType, "CAREFUL_READING");
+                passageWrapper.eq(Question::getCorrectAnswer, "PASSAGE");
+                passageWrapper.lt(Question::getId, realQid);
+                passageWrapper.orderByDesc(Question::getId);
+                passageWrapper.last("LIMIT 1");
+                Question passage = questionMapper.selectOne(passageWrapper);
+
+                Long passageId = passage != null ? passage.getId() : realQid;
+                if (seenRealIds.contains(passageId)) continue;
+                seenRealIds.add(passageId);
+
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", "CAREFUL_READING");
+
+                // Find next passage boundary
+                LambdaQueryWrapper<Question> nextWrapper = new LambdaQueryWrapper<>();
+                nextWrapper.eq(Question::getQuestionType, "CAREFUL_READING");
+                nextWrapper.eq(Question::getCorrectAnswer, "PASSAGE");
+                nextWrapper.gt(Question::getId, passageId);
+                nextWrapper.orderByAsc(Question::getId);
+                nextWrapper.last("LIMIT 1");
+                Long nextPassageId = questionMapper.selectList(nextWrapper)
+                        .stream().findFirst().map(Question::getId).orElse(Long.MAX_VALUE);
+
+                // Find all sub-questions in this passage
+                LambdaQueryWrapper<Question> qsWrapper = new LambdaQueryWrapper<>();
+                qsWrapper.eq(Question::getQuestionType, "CAREFUL_READING");
+                qsWrapper.ne(Question::getCorrectAnswer, "PASSAGE");
+                qsWrapper.gt(Question::getId, passageId);
+                qsWrapper.lt(Question::getId, nextPassageId);
+                qsWrapper.orderByAsc(Question::getId);
+                qsWrapper.last("LIMIT 5");
+                List<Question> subQuestions = questionMapper.selectList(qsWrapper);
+
+                if (passage != null) item.put("passage", passage);
+                item.put("question", question);  // the wrong question itself
+                item.put("questions", subQuestions);  // all sub-questions
+                practiceItems.add(item);
+                continue;
+            }
+
+            // For PASSAGE-type CAREFUL_READING or other types: add as-is
+            if (!seenRealIds.contains(realQid)) {
+                seenRealIds.add(realQid);
+                Map<String, Object> item = new HashMap<>();
+                item.put("type", qType);
+                item.put("question", question);
+                practiceItems.add(item);
             }
         }
 
@@ -113,8 +187,8 @@ public class ErrorServiceImpl implements ErrorService {
 
         Map<String, Object> result = new HashMap<>();
         result.put("sessionId", sessionId);
-        result.put("questions", questions);
-        result.put("totalCount", questions.size());
+        result.put("questions", practiceItems);
+        result.put("totalCount", practiceItems.size());
         return result;
     }
 }

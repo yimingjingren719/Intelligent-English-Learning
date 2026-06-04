@@ -9,27 +9,33 @@
         </div>
 
         <!-- 筛选 -->
-        <el-form :inline="true" :model="filters" class="filter-form">
-          <el-form-item label="类型">
-            <el-select v-model="filters.questionType" placeholder="全部" clearable>
+        <div class="filter-bar">
+          <div class="filter-item">
+            <label>类型：</label>
+            <el-select v-model="filterQuestionType" placeholder="全部类型" style="width:140px">
               <el-option label="选词填空" value="BANKED_CLOZE" />
               <el-option label="长篇匹配" value="LONG_MATCH" />
               <el-option label="仔细阅读" value="CAREFUL_READING" />
             </el-select>
-          </el-form-item>
-          <el-form-item label="难度">
-            <el-select v-model="filters.difficulty" placeholder="全部" clearable>
-              <el-option v-for="n in 10" :key="n" :label="`${n}`" :value="n" />
+          </div>
+          <div class="filter-item">
+            <label>难度：</label>
+            <el-select v-model="filterDifficulty" placeholder="全部难度" style="width:120px">
+              <el-option v-for="n in 10" :key="n" :label="String(n)" :value="n" />
             </el-select>
-          </el-form-item>
-          <el-form-item label="关键词">
-            <el-input v-model="filters.keyword" placeholder="搜索题目内容" clearable />
-          </el-form-item>
-          <el-form-item>
+          </div>
+          <div class="filter-item">
+            <label>关键词：</label>
+            <el-input v-model="filterKeyword" placeholder="搜索题目内容" clearable style="width:200px" />
+          </div>
+          <div class="filter-item">
             <el-button type="primary" @click="fetchQuestions">搜索</el-button>
             <el-button @click="resetFilters">重置</el-button>
-          </el-form-item>
-        </el-form>
+          </div>
+          <div class="filter-item" style="color:#999;font-size:12px">
+            当前：类型={{ filterQuestionType || '全部' }}  难度={{ filterDifficulty || '全部' }}
+          </div>
+        </div>
 
         <!-- 表格 -->
         <el-table :data="questions" v-loading="loading" border stripe>
@@ -131,7 +137,9 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 
-const filters = reactive({ questionType: '', difficulty: null, keyword: '' })
+const filterQuestionType = ref('')
+const filterDifficulty = ref(null)
+const filterKeyword = ref('')
 
 // 弹窗
 const dialogVisible = ref(false)
@@ -163,9 +171,9 @@ async function fetchQuestions() {
   loading.value = true
   try {
     const params = { page: currentPage.value, size: pageSize.value }
-    if (filters.questionType) params.questionType = filters.questionType
-    if (filters.difficulty) params.difficulty = filters.difficulty
-    if (filters.keyword) params.keyword = filters.keyword
+    if (filterQuestionType.value) params.questionType = filterQuestionType.value
+    if (filterDifficulty.value) params.difficulty = filterDifficulty.value
+    if (filterKeyword.value) params.keyword = filterKeyword.value
     const res = await getQuestionsPage(params)
     questions.value = res.data.records
     total.value = res.data.total
@@ -173,10 +181,14 @@ async function fetchQuestions() {
   finally { loading.value = false }
 }
 
+function onFilterChange(name, val) {
+  console.log('[Filter]', name, '→', val, '| ref values:', filterQuestionType.value, filterDifficulty.value)
+}
+
 function resetFilters() {
-  filters.questionType = ''
-  filters.difficulty = null
-  filters.keyword = ''
+  filterQuestionType.value = ''
+  filterDifficulty.value = null
+  filterKeyword.value = ''
   fetchQuestions()
 }
 
@@ -264,5 +276,7 @@ async function handleDelete(id) {
 </script>
 
 <style scoped>
-.filter-form { margin-bottom: 16px; }
+.filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 16px; }
+.filter-item { display: flex; align-items: center; gap: 6px; }
+.filter-item label { font-size: 14px; color: #606266; white-space: nowrap; }
 </style>

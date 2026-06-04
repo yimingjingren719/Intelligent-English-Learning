@@ -34,7 +34,7 @@ jwt:
 ai:
   provider: openai      # 使用DeepSeek (兼容OpenAI格式)
   openai:
-    api-key: sk-7f0584eee9e247049e6609adb4dbc4f9
+    api-key: ${DEEPSEEK_API_KEY:}
     model: deepseek-chat
     base-url: https://api.deepseek.com
 
