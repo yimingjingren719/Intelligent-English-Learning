@@ -110,19 +110,33 @@
 - Maven 3.8+
 
 ### 2. 数据库初始化
+
+按顺序执行以下 SQL 文件：
+
 ```bash
-# 建表 + 创建管理员账号
-cmd /c "mysql -u root --default-character-set=utf8mb4 < backend\src\main\resources\db\schema.sql"
+DB="backend/src/main/resources/db"
 
-# 导入六级核心词汇（约800个）
-cmd /c "mysql -u root --default-character-set=utf8mb4 < backend\src\main\resources\db\cet6_words.sql"
+# ① 建库 + 建表 + 管理员账号 + 示例题目
+cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/schema.sql"
 
-# 导入生词本表
-cmd /c "mysql -u root --default-character-set=utf8mb4 < backend\src\main\resources\db\vocabulary_schema.sql"
+# ② 建生词本表（必须在导入词汇之前）
+cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/vocabulary_schema.sql"
 
-# 导入六级题库（选词填空+长篇匹配+仔细阅读）
-cmd /c "mysql -u root --default-character-set=utf8mb4 < backend\src\main\resources\db\cet6_questions_new.sql"
+# ③ 导入六级核心词汇（约800词，依赖 vocabulary 表）
+cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/cet6_words.sql"
+
+# ④ 导入六级题库（选词填空 + 长篇匹配 + 仔细阅读）
+cmd /c "mysql -u root --default-character-set=utf8mb4 < $DB/cet6_questions_new.sql"
 ```
+
+| 文件 | 作用 |
+|------|------|
+| `schema.sql` | 建库 + 全部核心表（users, questions, answer_records, error_records, learning_records）+ 管理员 + 示例题 |
+| `vocabulary_schema.sql` | 建生词本表（vocabulary） |
+| `cet6_words.sql` | 导入 ~800 个六级核心词汇到 vocabulary 表 |
+| `cet6_questions_new.sql` | 导入六级真题（选词填空×6 + 长篇匹配×6 + 仔细阅读×6） |
+
+> ⚠️ 顺序不能乱：`vocabulary_schema.sql` 必须在 `cet6_words.sql` 之前，否则生词表不存在会报错。
 
 ### 3. 配置环境变量
 
