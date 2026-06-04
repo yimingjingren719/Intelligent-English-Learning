@@ -124,7 +124,27 @@ cmd /c "mysql -u root --default-character-set=utf8mb4 < backend\src\main\resourc
 cmd /c "mysql -u root --default-character-set=utf8mb4 < backend\src\main\resources\db\cet6_questions_new.sql"
 ```
 
-### 3. 后端启动
+### 3. 配置环境变量
+
+```bash
+# Windows (CMD)
+set DEEPSEEK_API_KEY=sk-your-deepseek-api-key
+
+# Windows (PowerShell)
+$env:DEEPSEEK_API_KEY="sk-your-deepseek-api-key"
+
+# Linux / macOS
+export DEEPSEEK_API_KEY=sk-your-deepseek-api-key
+```
+
+> API Key 获取: [DeepSeek 开放平台](https://platform.deepseek.com/api_keys)
+
+也可创建 `.env` 文件（已 gitignore）：
+```
+DEEPSEEK_API_KEY=sk-your-key-here
+```
+
+### 4. 后端启动
 ```bash
 cd backend
 # 修改 application.yml 中的数据库密码
@@ -133,7 +153,7 @@ mvn spring-boot:run
 # API 文档: http://localhost:8080/doc.html
 ```
 
-### 4. 前端启动
+### 5. 前端启动
 ```bash
 cd frontend
 npm install
@@ -141,7 +161,7 @@ npm run dev
 # 访问: http://localhost:3000
 ```
 
-### 5. 默认账号
+### 6. 默认账号
 | 角色 | 用户名 | 密码 |
 |------|--------|------|
 | 管理员 | admin | admin123 |
@@ -213,16 +233,25 @@ npm run dev
 
 ## AI 配置
 
-本系统使用 **DeepSeek** API（兼容 OpenAI 格式）。
+本系统使用 **DeepSeek** API（兼容 OpenAI 格式）。API Key 通过环境变量配置，启动前必须设置：
+
+```bash
+# 设置环境变量
+set DEEPSEEK_API_KEY=sk-your-deepseek-api-key    # Windows CMD
+# 或
+export DEEPSEEK_API_KEY=sk-your-deepseek-api-key  # Linux/macOS
+```
 
 ```yaml
-# application.yml
+# application.yml (无需填写真实 Key，从环境变量读取)
 ai:
-  provider: openai          # DeepSeek 兼容 OpenAI 格式
+  provider: openai
   openai:
-    api-key: sk-your-key
+    api-key: ${DEEPSEEK_API_KEY:}   # 自动读取环境变量
     model: deepseek-chat
     base-url: https://api.deepseek.com
 ```
+
+> 未设置环境变量时 AI 功能将不可用，提示"AI服务暂时不可用"。
 
 同样支持切换 OpenAI GPT-4 或 Google Gemini，修改 `provider` 和对应配置即可。
